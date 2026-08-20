@@ -63,6 +63,17 @@ public class BookController {
         return "Book: " + book + " - deleted from DB";
     }
 
+
+    @GetMapping("/get/{id}")
+    public Book getBook(@PathVariable Long id) {
+        return bookDao.findById(id);
+    }
+
+    @GetMapping("/get-new")
+    public Book getNewBook() {
+        return new Book();
+    }
+
     @GetMapping("/all")
     public List<Book> allBooks() {
         return bookDao.findAll();
