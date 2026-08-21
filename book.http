@@ -1,11 +1,47 @@
-### GET request to example server
-GET http://localhost:8080/book/find?id=1
+### GET all books
+GET http://localhost:8080/books
+
+### GET one book by id
+GET http://localhost:8080/books/1
 
 ### Send POST request with json body
-POST https://examples.http-client.intellij.net/post
+POST http://localhost:8080/books
 Content-Type: application/json
 
 {
-  "id": 999,
-  "value": "content"
+  "id": 5,
+  "isbn": "1111",
+  "title": "Super książka",
+  "author": "Dobry autor",
+  "publisher": "PWN",
+  "type": "Przygodowa"
 }
+
+### Send POST request with json body
+POST http://localhost:8080/books
+Content-Type: application/json
+
+{
+  "id": 5,
+  "isbn": "1112",
+  "title": "Dobra ksiazka",
+  "author": "Znany autor",
+  "publisher": "Empik",
+  "type": "Sci-fi"
+}
+
+### PUT
+PUT http://localhost:8080/books
+Content-Type: application/json
+
+{
+  "id": 2,
+  "isbn": "1112",
+  "title": "Książka dobra",
+  "author": "Znany autor",
+  "publisher": "Empik",
+  "type": "Sci-fi"
+}
+
+### DELETE by id
+DELETE http://localhost:8080/books/1

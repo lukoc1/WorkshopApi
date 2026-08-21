@@ -1,6 +1,5 @@
 package pl.visa.book;
 
-import jakarta.persistence.Query;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -10,12 +9,10 @@ import java.util.Optional;
 @Service
 public class MockBookService implements BookService{
 
-    private final BookDao bookDao;
     private List<Book> bookList;
+    private static Long nextId = 4L;
 
-
-    public MockBookService(BookDao bookDao) {
-        this.bookDao = bookDao;
+    public MockBookService() {
         bookList = new ArrayList<>();
         bookList.add(new Book(1L, "9788324631766", "Thinking in Java", "Bruce	Eckel", "Helion", "programming"));
         bookList.add(new Book(2L, "9788324627738", "Rusz	glowa	Java.", "Sierra	Kathy,	Bates	Bert", "Helion",
@@ -24,41 +21,51 @@ public class MockBookService implements BookService{
                 "programming"));
     }
 
-
     //////////
 
     @Override
     public List<Book> getBooks() {
-        return bookDao.findAll();
-    }
-
-    @Override
-    public void add(Book book) {
-        bookDao.saveBook(book);
+        return bookList;
     }
 
     @Override
     public Optional<Book> get(Long id) {
-        Book book = bookDao.findById(id);
 
-        return Optional.ofNullable(book);
+        return bookList.stream()
+                .filter(s -> s.getId().equals(id))
+                .findFirst();
     }
 
     @Override
-    public void update(Book book) {
-        Book bookToUpdate = bookDao.findById(book.getId());
+    public void add(Book book) {
 
-        int index = bookList.indexOf(bookToUpdate);
-
-//        bookList.set(index, book);
-
-        bookDao.update(book);
+        book.setId(nextId);
+        nextId++;
+        bookList.add(book);
     }
 
     @Override
     public void delete(Long id) {
-        Book book = bookDao.findById(id);
+        Optional<Book> bookToDelete = get(id);
 
-        bookDao.delete(book);
+        if (bookToDelete.isEmpty()) {
+            return;
+        }
+
+        bookList.remove(bookToDelete.get());
+    }
+
+    @Override
+    public void update(Book book) {
+
+        Optional<Book> bookToUpdate = get(book.getId());
+
+        if (bookToUpdate.isEmpty()) {
+            return;
+        }
+
+        int index = bookList.indexOf(bookToUpdate.get());
+
+        bookList.set(index, book);
     }
 }

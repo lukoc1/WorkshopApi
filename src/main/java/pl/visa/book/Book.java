@@ -1,16 +1,8 @@
 package pl.visa.book;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 
-import java.util.Locale;
-
-@Entity
 public class Book {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+
     private Long id;
     private String isbn;
     private String title;
@@ -18,7 +10,9 @@ public class Book {
     private String publisher;
     private String type;
 
+
     public Book() {
+
     }
 
     public Book(Long id, String isbn, String title, String author, String publisher, String type) {

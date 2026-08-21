@@ -1,6 +1,9 @@
 package pl.visa.book;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreType;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Optional;
@@ -23,23 +26,30 @@ public class BookController {
         return bookService.getBooks();
     }
 
-    @PostMapping("/add")
+    @PostMapping("")
     public void add(@RequestBody Book book) {
         bookService.add(book);
     }
 
-    @GetMapping("/get/{id}")
-    public Optional<Book> getBook(@PathVariable Long id) {
-        return bookService.get(id);
+    @GetMapping("/{id}")
+    public Book getBook(@PathVariable Long id) {
+        return bookService.get(id).
+                orElseThrow(() ->
+                new ResponseStatusException(
+                HttpStatus.NOT_FOUND,
+                "Book not found in DB"
+        ));
     }
 
-    @PutMapping("/update")
+
+    @PutMapping("")
     public void update(@RequestBody Book book) {
 
         bookService.update(book);
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
+    @ResponseBody
     public void delete(@PathVariable Long id) {
         bookService.delete(id);
     }
