@@ -1,6 +1,8 @@
 package pl.visa.book;
 
 import org.springframework.stereotype.Service;
+import pl.visa.author.Author;
+import pl.visa.author.AuthorService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,15 +11,21 @@ import java.util.Optional;
 @Service
 public class MockBookService implements BookService{
 
+    private final AuthorService authorService;
     private List<Book> bookList;
     private static Long nextId = 4L;
 
-    public MockBookService() {
+    public MockBookService(AuthorService authorService) {
+        this.authorService = authorService;
+
+        Author author1 = authorService.get(1L).orElseThrow();
+        Author author2 = authorService.get(2L).orElseThrow();
+
         bookList = new ArrayList<>();
-        bookList.add(new Book(1L, "9788324631766", "Thinking in Java", "Bruce	Eckel", "Helion", "programming"));
-        bookList.add(new Book(2L, "9788324627738", "Rusz	glowa	Java.", "Sierra	Kathy,	Bates	Bert", "Helion",
+        bookList.add(new Book(1L, "9788324631766", "Thinking in Java", author1, "Helion", "programming"));
+        bookList.add(new Book(2L, "9788324627738", "Rusz	glowa	Java.", author2, "Helion",
                 "programming"));
-        bookList.add(new Book(3L, "9780130819338", "Java	2.	Podstawy", "Cay	Horstmann,	Gary	Cornell", "Helion",
+        bookList.add(new Book(3L, "9780130819338", "Java	2.	Podstawy", author1, "Helion",
                 "programming"));
     }
 

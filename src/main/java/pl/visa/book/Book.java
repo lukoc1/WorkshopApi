@@ -1,12 +1,14 @@
 package pl.visa.book;
 
 
+import pl.visa.author.Author;
+
 public class Book {
 
     private Long id;
     private String isbn;
     private String title;
-    private String author;
+    private Author author;
     private String publisher;
     private String type;
 
@@ -15,7 +17,7 @@ public class Book {
 
     }
 
-    public Book(Long id, String isbn, String title, String author, String publisher, String type) {
+    public Book(Long id, String isbn, String title, Author author, String publisher, String type) {
         this.id = id;
         this.isbn = isbn;
         this.title = title;
@@ -57,11 +59,11 @@ public class Book {
         this.publisher = publisher;
     }
 
-    public String getAuthor() {
+    public Author getAuthor() {
         return author;
     }
 
-    public void setAuthor(String author) {
+    public void setAuthor(Author author) {
         this.author = author;
     }
 
@@ -79,4 +81,5 @@ public class Book {
 
         return "[" + this.getId() + "] " + this.getTitle();
     }
+
 }
